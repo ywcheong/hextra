@@ -212,6 +212,22 @@ Options for `theme.default`:
 The `theme.displayToggle` parameter allows you to display a toggle button for changing themes.
 When set to `true`, visitors can switch between light or dark mode, overriding the default setting.
 
+### Page Last Modification
+
+The date of the page's last modification can be displayed by enabling the `params.displayUpdatedDate` flag. To use Git commit date as the source, enable also the `enableGitInfo` flag.
+
+To customize the date format, set the `params.dateFormat` parameter. Its layout matches Hugo's [`time.Format`](https://gohugo.io/functions/time/format/).
+
+```yaml {filename="hugo.yaml"}
+# Parse Git commit
+enableGitInfo: true
+
+params:
+  # Display the last modification date
+  displayUpdatedDate: true
+  dateFormat: "January 2, 2006"
+```
+
 ### Page Width
 
 The width of the page can be customized by the `params.page.width` parameter in the config file:
@@ -227,7 +243,7 @@ There are three available options: `full`, `wide`, and `normal`. By default, the
 
 Similarly, the width of the navbar and footer can be customized by the `params.navbar.width` and `params.footer.width` parameters.
 
-### Search Index
+### FlexSearch Index
 
 Full-text search powered by [FlexSearch](https://github.com/nextapps-de/flexsearch) is enabled by default.
 To customize the search index, set the `params.search.flexsearch.index` parameter in the config file:
@@ -268,7 +284,7 @@ Options for [`flexsearch.tokenize`](https://github.com/nextapps-de/flexsearch/#t
 - `reverse` - incrementally index words in both directions
 - `full` - index every possible combination
 
-To exclude a page from the search index, set the `excludeSearch: true` in the front matter of the page:
+To exclude a page from the FlexSearch search index, set the `excludeSearch: true` in the front matter of the page:
 
 ```yaml {filename="content/docs/guide/configuration.md"}
 ---
@@ -286,3 +302,20 @@ services:
   googleAnalytics:
     ID: G-MEASUREMENT_ID
 ```
+
+### Google Search Index
+
+To [block Google Search](https://developers.google.com/search/docs/crawling-indexing/block-indexing) from indexing a page, set `noindex` to true in your page frontmatter:
+
+```yaml
+title: Configuration (archive version)
+params:
+  noindex: true
+```
+
+To exclude an entire directory, use the [`cascade`](https://gohugo.io/configuration/cascade/) key in the parent `_index.md` file.
+
+> [!NOTE]
+> To block search crawlers, you can make a [`robots.txt` template](https://gohugo.io/templates/robots/).
+> However, `robots.txt` instructions do not necessarily keep a page out of Google search results.
+
